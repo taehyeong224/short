@@ -3,7 +3,7 @@ import {ErrorModel} from "../model/ErrorModel";
 import {errorCode, category} from "../config/ErrorCode";
 
 export const createURIValid: SchemaLike = object().keys({
-    email: string().uri().required()
+    url: string().uri().required()
 });
 
 
