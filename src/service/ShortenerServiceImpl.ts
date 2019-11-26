@@ -4,7 +4,6 @@ import {Shorten} from "../entity/Shorten";
 import {generate} from "shortid";
 import {throwWhenTargetNotExist} from "../util/ErrorHandle";
 import {ShortenerStatService} from "./ShortenerStatService";
-import {ShortenStat} from "../entity/ShortenStat";
 
 export class ShortenerServiceImpl implements ShortenerService {
     private readonly shortenerStatService: ShortenerStatService;
