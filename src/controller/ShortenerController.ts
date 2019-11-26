@@ -14,11 +14,11 @@ export class ShortenerController extends BaseController {
         this.shortenerService = shortenerService;
     }
 
-    public create = (req: Request, res: Response): void => {
+    public create = async (req: Request, res: Response): Promise<void> => {
         try {
             checkValidation(req.query, createURIValid);
             const {url} = req.query;
-            const result: UrlAndDuplicated = this.shortenerService.generate(url);
+            const result: UrlAndDuplicated = await this.shortenerService.generate(url);
             res.status(result.duplicated ? 200 : 201).json({url: result.url});
         } catch (e) {
             Log.error("ShortenerController > error : ", e);
