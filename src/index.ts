@@ -8,16 +8,20 @@ import {AppRoutes} from "./routes";
 import * as cors from 'cors';
 import {Log} from "./util/Log";
 import * as morgan from "morgan";
+import {Connection, createConnection, getConnectionOptions} from "typeorm";
 
 
 const app: any = express();
 const server: http.Server = http.createServer(app);
 const port = process.env.PORT || 3000;
+let dbConnection: Connection;
 
 export async function startServer(): Promise<express.Application> {
     try {
         setMiddleWares();
         registerAPI();
+        const connectionOptions = await getConnectionOptions(process.env.WHO);
+        dbConnection = await createConnection({ ...connectionOptions, name: "default" });
         if (process.env.NODE_ENV !== "test") {
             server.listen(port);
         }
@@ -30,6 +34,7 @@ export async function startServer(): Promise<express.Application> {
 export function stopServer() {
     server.close(async () => {
         Log.info("server", {msg: "Express Server Closed"});
+        await dbConnection.close();
     });
 }
 
