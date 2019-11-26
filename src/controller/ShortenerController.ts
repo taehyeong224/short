@@ -21,7 +21,7 @@ export class ShortenerController extends BaseController {
             const result: UrlAndDuplicated = await this.shortenerService.generate(url);
             res.status(result.duplicated ? 200 : 201).json({url: result.url});
         } catch (e) {
-            Log.error("ShortenerController > error : ", e);
+            Log.error("ShortenerController > create > error : ", e);
             ErrorHandle(req, res, e);
         }
     };
@@ -29,8 +29,15 @@ export class ShortenerController extends BaseController {
     public delete = (req: Request, res: Response): void => {
     };
 
-    public getOne = (req: Request, res: Response): void => {
-        res.status(200).json({msg: "hello"})
+    public getOne = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const {id} = req.params;
+            const originUrl: string = await this.shortenerService.getOriginUrlById(id);
+            res.status(301).redirect(originUrl)
+        } catch (e) {
+            Log.error("ShortenerController > getOne > error : ", e);
+            ErrorHandle(req, res, e);
+        }
     };
 
     public update = (req: Request, res: Response): void => {
