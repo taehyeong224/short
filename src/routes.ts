@@ -16,6 +16,11 @@ export const AppRoutes: RouterInterface[] = [
         path: "/register.json",
         method: Method.POST,
         action: shortenerController.create
+    },
+    {
+        path: "/:id/stats",
+        method: Method.GET,
+        action: shortenerController.getStats
     }
 ];
 

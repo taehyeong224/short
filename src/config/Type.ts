@@ -3,7 +3,7 @@ export interface UrlAndDuplicated {
     duplicated: boolean
 }
 
-export interface Stats {
+export interface Stat {
     at: string,
     visits: number
 }
