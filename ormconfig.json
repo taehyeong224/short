@@ -9,6 +9,7 @@
     "database": "test1",
     "synchronize": true,
     "charset": "utf8mb4",
+    "timezone": "+09:00",
     "logging": true,
     "entities": [
       "dist/entity/**/*.js"
