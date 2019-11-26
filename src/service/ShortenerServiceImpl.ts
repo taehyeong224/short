@@ -1,9 +1,10 @@
 import {ShortenerService} from "./ShortenerService";
-import {Stats, UrlAndDuplicated} from "../config/Type";
+import {Stat, UrlAndDuplicated} from "../config/Type";
 import {Shorten} from "../entity/Shorten";
 import {generate} from "shortid";
 import {throwWhenTargetNotExist} from "../util/ErrorHandle";
 import {ShortenerStatService} from "./ShortenerStatService";
+import {ShortenStat} from "../entity/ShortenStat";
 
 export class ShortenerServiceImpl implements ShortenerService {
     private readonly shortenerStatService: ShortenerStatService;
@@ -37,8 +38,10 @@ export class ShortenerServiceImpl implements ShortenerService {
         return shorten.originUrl;
     };
 
-    public getStatsById = async (id: string): Promise<Stats[]> => {
-        return [];
+    public getStatsById = async (id: string): Promise<Stat[]> => {
+        const shorten = await this.getById(id);
+        throwWhenTargetNotExist({target: shorten});
+        return this.shortenerStatService.getByShorten(shorten);
     };
 
     private generateId = async (): Promise<string> => {
