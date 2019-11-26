@@ -3,8 +3,15 @@ import {Stats, UrlAndDuplicated} from "../config/Type";
 import {Shorten} from "../entity/Shorten";
 import {generate} from "shortid";
 import {throwWhenTargetNotExist} from "../util/ErrorHandle";
+import {ShortenerStatService} from "./ShortenerStatService";
 
 export class ShortenerServiceImpl implements ShortenerService {
+    private readonly shortenerStatService: ShortenerStatService;
+
+    constructor(shortenerStatService: ShortenerStatService) {
+        this.shortenerStatService = shortenerStatService;
+    }
+
     public generate = async (url: string): Promise<UrlAndDuplicated> => {
         const shorten = await Shorten.findOne({
             where: {
@@ -26,9 +33,10 @@ export class ShortenerServiceImpl implements ShortenerService {
     public getOriginUrlById = async (id: string): Promise<string> => {
         const shorten = await this.getById(id);
         throwWhenTargetNotExist({target: shorten});
+        this.shortenerStatService.create(shorten); // no await
         return shorten.originUrl;
     };
-    
+
     public getStatsById = async (id: string): Promise<Stats[]> => {
         return [];
     };
