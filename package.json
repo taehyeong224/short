@@ -24,7 +24,7 @@
       "reflect-metadata": "^0.1.12",
       "serve-favicon": "~2.4.5",
       "shortid": "^2.2.15",
-      "typeorm": "^0.2.20",
+      "typeorm": "^0.2.25",
       "typescript": "^3.6.4",
       "winston": "^3.2.1"
    },
